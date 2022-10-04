@@ -1,10 +1,10 @@
 # This is a file that specifies how BSD make should behave to successfully
-# compile all our source code. BSD make requires a syntax that differs from 
-# GNU make, an equivalent program written for GNU-based systems. Please refer 
+# compile all our source code. BSD make requires a syntax that differs from
+# GNU make, an equivalent program written for GNU-based systems. Please refer
 # to GNUmakefile if you are on a GNU-based system.
 
 # CXX indicates the compiler of choice. Here you have a default value, which
-# is pretty safe given that if you use GNU make, it probably means that you 
+# is pretty safe given that if you use GNU make, it probably means that you
 # are on a GNU/Linux system with GCC. If you want to override this choice,
 # use your environment variables and run make like so:
 # 	$ CXX=compiler_of_choice make
@@ -14,13 +14,14 @@ CXX ?= clang++
 # -O0: Indicates to never apply any special optimization to boost performances.
 #  	   This benefits debugging, as the assembly code will generally reflect the
 #  	   structure of your source code.
-# --std=c++11: Indicates to adhere to the ISO C++11 standard and exclude any 
+# --std=c++11: Indicates to adhere to the ISO C++11 standard and exclude any
 #              newer revision, i.e., C++14, C++17, C++20, ...
-CXXFLAGS = -O0 --std=c++11 
+# -fno-elide-constructors: Indicates to not optimize copy assignments.
+CXXFLAGS = -O0 --std=c++11 -fno-elide-constructors
 
 # Hide a clang warning message relevant for objects initialised by brackets.
 .if ${CXX} == "clang++"
-CXXFLAGS += -Wno-vexing-parse 
+CXXFLAGS += -Wno-vexing-parse
 .endif
 
 # On restricted BSD systems, like iOS, exceptions are not available.
