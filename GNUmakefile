@@ -16,7 +16,10 @@ CXX ?= g++
 # --std=c++11: Indicates to adhere to the ISO C++11 standard and exclude any
 #              newer revision, i.e., C++14, C++17, C++20, ... and GNU dialects.
 # -fno-elide-constructors: Indicates to not optimize copy assignments.
-CXXFLAGS = -O0 --std=c++11 -fno-elide-constructors
+CXXFLAGS = -O0 --std=c++11 -fno-elide-constructors 
+# Let's link our executables against pthread Library, as some exercises require
+# it due to C++ multithreading implementation
+LDFLAGS = -lpthread
 
 # all: the default task that make will execute if you launch make without
 #      any further arguments.
@@ -31,7 +34,7 @@ all: $(patsubst %.cc,%.out,$(wildcard *.cc))
 # one. Indeed, you see a templated command line that will be executed in a
 # shell session. Can you guess what will be the final command being executed?
 %.out: %.cc
-	$(CXX) $(CXXFLAGS) -o $@ $<
+	$(CXX) $(CXXFLAGS) -o $@ $< $(LDFLAGS)
 
 # PHONY command in make allows the definition of tasks that are not bound
 # to source code files to be compiled.
